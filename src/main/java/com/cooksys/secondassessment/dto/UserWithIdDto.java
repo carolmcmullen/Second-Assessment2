@@ -1,5 +1,7 @@
 package com.cooksys.secondassessment.dto;
 
+import java.sql.Timestamp;
+
 import com.cooksys.secondassessment.entity.Profile;
 
 public class UserWithIdDto {
@@ -7,7 +9,7 @@ public class UserWithIdDto {
 	private Integer id;
 	private String username;
 	private Profile profile;
-//  private Joined timestamp;
+    private Timestamp Joined;
 	
 	public Integer getId() {
 		return id;
@@ -56,6 +58,14 @@ public class UserWithIdDto {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Timestamp getJoined() {
+		return Joined;
+	}
+
+	public void setJoined(Timestamp joined) {
+		Joined = joined;
 	}
 
 	

@@ -1,12 +1,14 @@
 package com.cooksys.secondassessment.entity;
 
-import javax.persistence.Embedded;
+import java.sql.Timestamp;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,9 +21,15 @@ public class User {
 
 	private String username;
 
-	//private Joined timestamp;
+	private Timestamp joined ;
 	
 	private String password;
+	
+	private Boolean isActive;
+	
+	@ManyToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="profileId", referencedColumnName = "id", nullable=false)
+	private Profile profile;
 	
 	public Integer getId() {
 		return id;
@@ -31,13 +39,13 @@ public class User {
 		this.id = id;
 	}
 
-	//public Joined getTimestamp() {
-	//	return timestamp;
-	//}
+	public Timestamp getJoined() {
+		return joined;
+	}
 
-	//public void setTimestamp(Joined timestamp) {
-	//	this.timestamp = timestamp;
-	//}
+	public void setJoined(Timestamp joined) {
+		this.joined = joined;
+	}
 	
 	public String getUsername() {
 		return username;
@@ -47,13 +55,13 @@ public class User {
 		this.username = username;
 	}
 
-	//public Profile getProfile() {
-	//return profile;
-	//}
+	public Profile getProfile() {
+		return profile;
+	}
 
-	//public void setProfile(Profile profile) {
-	//this.profile = profile;
-	//}
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
 
 	@Override
 	public int hashCode() {
@@ -86,5 +94,13 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
 }

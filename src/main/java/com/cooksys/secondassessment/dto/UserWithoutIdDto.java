@@ -1,18 +1,20 @@
 package com.cooksys.secondassessment.dto;
 
-import com.cooksys.secondassessment.entity.Profile;
+import java.sql.Timestamp;
+import com.cooksys.secondassessment.dto.ProfileDto;
+
 
 public class UserWithoutIdDto {
 
-	private Profile profile;
+	private ProfileDto profile;
 	private String username;
-  //private Joined timestamp;
+	private Timestamp Joined;
 
-	public Profile getProfile() {
+	public ProfileDto getProfile() {
 		return profile;
 	}
 
-	public void setProfile(Profile profile) {
+	public void setProfile(ProfileDto profile) {
 		this.profile = profile;
 	}
 
@@ -22,5 +24,13 @@ public class UserWithoutIdDto {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public Timestamp getJoined() {
+		return Joined;
+	}
+
+	public void setJoined(Timestamp joined) {
+		Joined = joined;
 	}
 }

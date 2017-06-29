@@ -5,18 +5,12 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import com.cooksys.secondassessment.dto.HashtagDto;
-import com.cooksys.secondassessment.dto.UserWithIdDto;
-import com.cooksys.secondassessment.dto.UserWithoutIdDto;
 import com.cooksys.secondassessment.entity.Hashtag;
-import com.cooksys.secondassessment.entity.User;
 import com.cooksys.secondassessment.mapper.HashtagMapper;
-import com.cooksys.secondassessment.mapper.UserMapper;
 import com.cooksys.secondassessment.repository.HashtagRepository;
-import com.cooksys.secondassessment.repository.JpaUserRepository;
 
 @Service
 public class HashtagService {
