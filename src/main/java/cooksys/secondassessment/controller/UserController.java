@@ -46,6 +46,8 @@ public class UserController {
 	@ApiOperation(value = "/CreateUser", nickname = "createNewUser")
 	@PostMapping()
 	public UserWithIdDto create(@RequestBody CredentialDto user, HttpServletResponse response) {
+		// todo: If any required fields are missing or the username provided is already taken, an error should be sent in lieu of a response.
+			//If the given credentials match a previously-deleted user, re-activate the deleted user instead of creating a new one.
 		response.setStatus(HttpServletResponse.SC_CREATED);
 		return userService.createUser(userMapper.toUser(user));
 	}
@@ -57,9 +59,20 @@ public class UserController {
 	public List<UserWithIdDto> getAll() {
 		return userService.getAll();
 	}
+	
+	// Get user
+		@GetMapping("@{username}")
+		public UserWithoutIdDto getUser(@PathVariable String username, HttpServletResponse response) throws NotFoundException {
+			try {
+				return userService.getUser(username);
+			} catch (NotFoundException e) {
+				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				throw e;
+			}
+		}
 
 	// Delete user
-	@DeleteMapping("{username}")
+	@DeleteMapping("@{username}")
 	public UserWithoutIdDto delete(@RequestBody CredentialDto user, HttpServletResponse response)
 			throws NotFoundException {
 		try {
@@ -70,8 +83,8 @@ public class UserController {
 		}
 	}
 
-	@PatchMapping("{username}")
-	public UserWithoutIdDto delete(@RequestBody ProfileCredentialDto profileCredential, HttpServletResponse response)
+	@PatchMapping("@{username}")
+	public UserWithoutIdDto UpdateUser(@RequestBody ProfileCredentialDto profileCredential, HttpServletResponse response)
 			throws NotFoundException {
 		try {
 			return userService.updateProfile(userMapper.toUser(profileCredential.getCredential()),
@@ -81,4 +94,32 @@ public class UserController {
 			throw e;
 		}
 	}
+	
+	/*
+	 * TODO: POST users/@{username}/follow
+	 */
+	
+	/*
+	 * TODO: POST users/@{username}/follow
+	 */
+	
+	/*
+	 * TODO: GET users/@{username}/feed
+	 */
+	
+	/*
+	 * TODO: GET users/@{username}/tweets
+	 */
+	
+	/*
+	 * TODO: POST users/@{username}/mentions
+	 */
+	
+	/*
+	 * TODO: GET users/@{username}/followers
+	 */
+	
+	/*
+	 * TODO: GET users/@{username}/following
+	 */
 }

@@ -30,8 +30,7 @@ public class HashtagController {
 		this.hashtagMapper = hashtagMapper;
 	}
 	
-	// Creates HashTag
-	
+	// Creates HashTag	
 	//@ApiOperation(value = "/CreateHashTag", nickname = "createNewHashTag")
 	@PostMapping("Hashtag")
 	public HashtagDto create(@RequestBody HashtagDto hashtag, HttpServletResponse response) {
@@ -45,4 +44,10 @@ public class HashtagController {
 	public List<HashtagDto> getAll() {
 		return hashtagService.getAll();
 	}
+	
+	/*
+	 * TODO: GET tags/{label}
+	 */
+	
+	
 }

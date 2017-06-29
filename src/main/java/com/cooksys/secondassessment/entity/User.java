@@ -28,7 +28,7 @@ public class User {
 	private Boolean isActive;
 	
 	@ManyToOne(cascade={CascadeType.ALL})
-	@JoinColumn(name="profileId", referencedColumnName = "id", nullable=false)
+	@JoinColumn(name="profileId", referencedColumnName = "id", nullable=true)
 	private Profile profile;
 	
 	public Integer getId() {

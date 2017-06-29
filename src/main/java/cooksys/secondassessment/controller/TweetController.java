@@ -44,4 +44,48 @@ public class TweetController {
 	public List<TweetDto> getAll() {
 		return tweetService.getAll();
 	}
+	
+	/*
+	 * TODO: GET tweets/{id}
+	 */
+	
+	/*
+	 * TODO: DELETE  tweets/{id}
+	 */
+	
+	/*
+	 * TODO: POST tweets/{id}/like
+	 */
+	
+	/*
+	 * TODO: POST tweets/{id}/reply
+	 */
+	
+	/*
+	 * TODO: POST tweets/{id}/repost
+	 */
+	
+	/*
+	 * TODO: POST tweets/{id}/tags
+	 */
+	
+	/*
+	 * TODO: POST tweets/{id}/likes
+	 */
+	
+	/*
+	 * TODO: POST tweets/{id}/context
+	 */
+	
+	/*
+	 * TODO: POST tweets/{id}/replies
+	 */
+	
+	/*
+	 * TODO: POST tweets/{id}/reposts
+	 */
+	
+	/*
+	 * TODO: POST tweets/{id}/mentions
+	 */
 }

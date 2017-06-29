@@ -55,6 +55,13 @@ public class UserService {
 		}
 	}
 	
+	public boolean isUsernameAvailable(String username){
+		User dbUser = jpaUserRepository.findByUsername(username);
+		if(dbUser == null)
+			return true;
+		return false;
+	}
+	
 	/*
 	 * Check if user credential is valid
 	 */
@@ -74,8 +81,15 @@ public class UserService {
 			User newUser = jpaUserRepository.save(dbUser);
 			return userMapper.toUserWithoutIdDto(newUser);
 		}
-		else {
-			throw new NotFoundException("user is invalid");
+		throw new NotFoundException("user is invalid");
+	}
+
+	public UserWithoutIdDto getUser(String username) throws NotFoundException {
+		User user = jpaUserRepository.findByUsername(username);
+		if(user != null)
+		{
+			return userMapper.toUserWithoutIdDto(user);
 		}
+		throw new NotFoundException("user is invalid"); 
 	}
 }

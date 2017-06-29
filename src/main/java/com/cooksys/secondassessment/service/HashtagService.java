@@ -32,4 +32,11 @@ public class HashtagService {
 	public List<HashtagDto> getAll() {
 		return hashtagRepository.findAll().stream().map(hashtagMapper::toHastTagDto).collect(Collectors.toList());
 	}
+	
+	public boolean checkIfHashTagExist(String label) {
+		Hashtag hashtag = hashtagRepository.findByLabel(label);
+		if(hashtag == null)
+			return false;
+		return true;
+	}
 }

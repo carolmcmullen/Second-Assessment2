@@ -1,20 +1,20 @@
 package com.cooksys.secondassessment.dto;
 
 import java.sql.Timestamp;
-import com.cooksys.secondassessment.dto.ProfileDto;
+import com.cooksys.secondassessment.entity.Profile;
 
 
 public class UserWithoutIdDto {
 
-	private ProfileDto profile;
+	private Profile profile;
 	private String username;
 	private Timestamp Joined;
 
-	public ProfileDto getProfile() {
+	public Profile getProfile() {
 		return profile;
 	}
 
-	public void setProfile(ProfileDto profile) {
+	public void setProfile(Profile profile) {
 		this.profile = profile;
 	}
 
