@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.cooksys.secondassessment.dto.HashtagDto;
 import com.cooksys.secondassessment.dto.TweetDto;
-import com.cooksys.secondassessment.dto.UserWithIdDto;
 import com.cooksys.secondassessment.dto.UserWithoutIdDto;
 import com.cooksys.secondassessment.entity.Hashtag;
 import com.cooksys.secondassessment.entity.Mention;
@@ -208,23 +207,23 @@ public class TweetService {
 	 */
 	public Collection<Tweet> getTweetsByUsername(String username) throws Exception {
 		List<Tweet> tweets = tweetRepository.findByUsername(username);
-		
-		if(tweets == null || tweets.size() == 0)
+
+		if (tweets == null || tweets.size() == 0)
 			throw new Exception("Invalid username");
-		
-		return tweets;				
+
+		return tweets;
 	}
 
 	public Collection<Tweet> getTweetsByMentions(String username) throws Exception {
 		List<Mention> mentions = mentionRepository.findByUsername(username);
 		List<Tweet> tweets = new ArrayList<Tweet>();
-		for(int i = 0; i < mentions.size(); ++i){
+		for (int i = 0; i < mentions.size(); ++i) {
 			tweets.add(mentions.get(i).getTweet());
 		}
-		
-		if(tweets == null || tweets.size() == 0)
+
+		if (tweets == null || tweets.size() == 0)
 			throw new Exception("Invalid username");
-		
+
 		return tweets;
 	}
 }

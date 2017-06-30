@@ -20,14 +20,12 @@ import com.cooksys.secondassessment.dto.ProfileCredentialDto;
 import com.cooksys.secondassessment.dto.TweetDto;
 import com.cooksys.secondassessment.dto.UserWithIdDto;
 import com.cooksys.secondassessment.dto.UserWithoutIdDto;
-import com.cooksys.secondassessment.entity.User;
 import com.cooksys.secondassessment.mapper.ProfileMapper;
 import com.cooksys.secondassessment.mapper.TweetMapper;
 import com.cooksys.secondassessment.mapper.UserMapper;
 import com.cooksys.secondassessment.service.TweetService;
 import com.cooksys.secondassessment.service.UserService;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
 
@@ -41,7 +39,8 @@ public class UserController {
 	private TweetService tweetService;
 	private TweetMapper tweetMapper;
 
-	public UserController(UserService userService, UserMapper userMapper, ProfileMapper profileMapper, TweetService tweetService, TweetMapper tweetMapper) {
+	public UserController(UserService userService, UserMapper userMapper, ProfileMapper profileMapper,
+			TweetService tweetService, TweetMapper tweetMapper) {
 		this.userService = userService;
 		this.userMapper = userMapper;
 		this.profileMapper = profileMapper;
@@ -163,40 +162,28 @@ public class UserController {
 		}
 
 	}
-		
-	  
-	 @GetMapping("@{username}/tweets")
-		public List<TweetDto> getUserTweets(@PathVariable String username, HttpServletResponse response) throws Exception {
-		 return tweetService.getTweetsByUsername(username)
-				 .stream()
-				 .filter(t -> t.getIsActive().equals(true))
-				 .sorted((t1, t2) -> t2.getPosted().compareTo(t1.getPosted()))
-				 .map(tweetMapper::toTweetDto)
-				 .collect(Collectors.toList());	 
-		}
-	 
+
+	@GetMapping("@{username}/tweets")
+	public List<TweetDto> getUserTweets(@PathVariable String username, HttpServletResponse response) throws Exception {
+		return tweetService.getTweetsByUsername(username).stream().filter(t -> t.getIsActive().equals(true))
+				.sorted((t1, t2) -> t2.getPosted().compareTo(t1.getPosted())).map(tweetMapper::toTweetDto)
+				.collect(Collectors.toList());
+	}
 
 	@GetMapping("@{username}/mentions")
 	public List<TweetDto> getMentions(@PathVariable String username, HttpServletResponse response) throws Exception {
-	 return tweetService.getTweetsByMentions(username)
-			 .stream()
-			 .filter(t -> t.getIsActive().equals(true))
-			 .sorted((t1, t2) -> t2.getPosted().compareTo(t1.getPosted()))
-			 .map(tweetMapper::toTweetDto)
-			 .collect(Collectors.toList());	 
+		return tweetService.getTweetsByMentions(username).stream().filter(t -> t.getIsActive().equals(true))
+				.sorted((t1, t2) -> t2.getPosted().compareTo(t1.getPosted())).map(tweetMapper::toTweetDto)
+				.collect(Collectors.toList());
 	}
-	
+
 	/*
-	@GetMapping("@{username}/feed")
-	public List<TweetDto> getFeed(@PathVariable String username, HttpServletResponse response) throws Exception {
-	 return tweetService.getFeed(username)
-			 .stream()
-			 .filter(t -> t.getIsActive().equals(true))
-			 .sorted((t1, t2) -> t2.getPosted().compareTo(t1.getPosted()))
-			 .map(tweetMapper::toTweetDto)
-			 .collect(Collectors.toList());	 
-	}
+	 * @GetMapping("@{username}/feed") public List<TweetDto>
+	 * getFeed(@PathVariable String username, HttpServletResponse response)
+	 * throws Exception { return tweetService.getFeed(username) .stream()
+	 * .filter(t -> t.getIsActive().equals(true)) .sorted((t1, t2) ->
+	 * t2.getPosted().compareTo(t1.getPosted())) .map(tweetMapper::toTweetDto)
+	 * .collect(Collectors.toList()); }
 	 */
-	 
 
 }

@@ -3,7 +3,6 @@ package com.cooksys.secondassessment.dto;
 import java.sql.Timestamp;
 import com.cooksys.secondassessment.entity.Profile;
 
-
 public class UserWithoutIdDto {
 
 	private Profile profile;

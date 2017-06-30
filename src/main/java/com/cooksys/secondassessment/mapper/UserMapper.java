@@ -8,11 +8,16 @@ import com.cooksys.secondassessment.dto.UserWithoutIdDto;
 import com.cooksys.secondassessment.entity.User;
 
 @Mapper(componentModel = "spring")
-public interface UserMapper {	
+public interface UserMapper {
 	UserWithIdDto toUserWithIdDto(User user);
+
 	User toUser(UserWithIdDto user);
-	UserWithoutIdDto toUserWithoutIdDto (User user);
+
+	UserWithoutIdDto toUserWithoutIdDto(User user);
+
 	User toUser(UserWithoutIdDto user);
+
 	CredentialDto UserCredential(User user);
+
 	User toUser(CredentialDto user);
 }

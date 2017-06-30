@@ -18,12 +18,10 @@ import com.cooksys.secondassessment.dto.HashtagDto;
 import com.cooksys.secondassessment.dto.ReplyDto;
 import com.cooksys.secondassessment.dto.TweetDto;
 import com.cooksys.secondassessment.dto.UserWithoutIdDto;
-import com.cooksys.secondassessment.entity.Tweet;
 import com.cooksys.secondassessment.mapper.TweetMapper;
 import com.cooksys.secondassessment.mapper.UserMapper;
 import com.cooksys.secondassessment.service.TweetService;
 
-import io.swagger.annotations.Api;
 import javassist.NotFoundException;
 
 @RestController
@@ -87,7 +85,7 @@ public class TweetController {
 	}
 
 	@GetMapping("{id}/likes")
-	public List<UserWithoutIdDto>getTweetLike(@PathVariable Integer id, HttpServletResponse response)
+	public List<UserWithoutIdDto> getTweetLike(@PathVariable Integer id, HttpServletResponse response)
 			throws Exception {
 		try {
 			return tweetService.getUsersThatLikedTweet(id);
@@ -96,21 +94,19 @@ public class TweetController {
 			throw e;
 		}
 	}
-		
-	 @GetMapping("{id}/tags")
-	 public List<HashtagDto> getHashtag(@PathVariable Integer id, HttpServletResponse response)
-				throws Exception {
-			try {
-				return tweetService.getHashtags(id);
-			} catch (Exception e) {
-				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				throw e;
-			}
-		}
-	 
 
-	 @PostMapping("{id}/reply")
-	 public TweetDto reply(@PathVariable Integer id, @RequestBody ReplyDto reply, HttpServletResponse response)
+	@GetMapping("{id}/tags")
+	public List<HashtagDto> getHashtag(@PathVariable Integer id, HttpServletResponse response) throws Exception {
+		try {
+			return tweetService.getHashtags(id);
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			throw e;
+		}
+	}
+
+	@PostMapping("{id}/reply")
+	public TweetDto reply(@PathVariable Integer id, @RequestBody ReplyDto reply, HttpServletResponse response)
 			throws Exception {
 		try {
 			return tweetService.reply(id, userMapper.toUser(reply.getCredential()), reply.getContent());
@@ -118,7 +114,7 @@ public class TweetController {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			throw e;
 		}
-	 }
+	}
 
 	/*
 	 * TODO: POST tweets/{id}/replies
@@ -137,8 +133,6 @@ public class TweetController {
 	 * 
 	 * @PostMapping("{id}/reposts")
 	 */
-
-	
 
 	/*
 	 * TODO: POST tweets/{id}/mentions

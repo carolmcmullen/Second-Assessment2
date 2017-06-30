@@ -9,8 +9,8 @@ public class UserWithIdDto {
 	private Integer id;
 	private String username;
 	private Profile profile;
-    private Timestamp Joined;
-	
+	private Timestamp Joined;
+
 	public Integer getId() {
 		return id;
 	}
@@ -26,7 +26,7 @@ public class UserWithIdDto {
 	public void setProfile(Profile profile) {
 		this.profile = profile;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -68,7 +68,4 @@ public class UserWithIdDto {
 		Joined = joined;
 	}
 
-	
-
-	
 }

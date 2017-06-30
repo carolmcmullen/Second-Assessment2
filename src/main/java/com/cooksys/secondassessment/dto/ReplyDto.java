@@ -2,7 +2,7 @@ package com.cooksys.secondassessment.dto;
 
 public class ReplyDto {
 	private CredentialDto credential;
-	
+
 	private String content;
 
 	public CredentialDto getCredential() {

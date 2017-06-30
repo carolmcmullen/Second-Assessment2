@@ -13,13 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cooksys.secondassessment.dto.HashtagDto;
-import com.cooksys.secondassessment.dto.UserWithoutIdDto;
 import com.cooksys.secondassessment.mapper.HashtagMapper;
 import com.cooksys.secondassessment.service.HashtagService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import javassist.NotFoundException;
 
 @RestController
 @RequestMapping("tags")
@@ -51,5 +46,5 @@ public class HashtagController {
 	@GetMapping()
 	public HashtagDto getHashtagByLabel(@PathVariable String label, HttpServletResponse response) {
 		return hashtagMapper.toHashtagDto(hashtagService.getHashtag(label));
-	}	
+	}
 }

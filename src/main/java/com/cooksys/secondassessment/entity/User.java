@@ -23,22 +23,22 @@ public class User {
 
 	private String username;
 
-	private Timestamp joined ;
-	
+	private Timestamp joined;
+
 	private String password;
-	
+
 	private Boolean isActive;
-	
-	@ManyToOne(cascade={CascadeType.ALL})
-	@JoinColumn(name="profileId", referencedColumnName = "id", nullable=true)
+
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "profileId", referencedColumnName = "id", nullable = true)
 	private Profile profile;
-	
+
 	@ManyToMany()
 	private List<User> followers;
-	
+
 	@ManyToMany()
 	private List<User> following;
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -54,7 +54,7 @@ public class User {
 	public void setJoined(Timestamp joined) {
 		this.joined = joined;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -70,7 +70,7 @@ public class User {
 	public void setProfile(Profile profile) {
 		this.profile = profile;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
@@ -86,8 +86,6 @@ public class User {
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
-	
-	
 
 	public List<User> getFollowers() {
 		return followers;

@@ -15,9 +15,9 @@ public class Mention {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String username;
-	
+
 	@ManyToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "tweetId", referencedColumnName = "id", nullable = true)
 	private Tweet tweet;
@@ -70,6 +70,5 @@ public class Mention {
 			return false;
 		return true;
 	}
-	
-	
+
 }

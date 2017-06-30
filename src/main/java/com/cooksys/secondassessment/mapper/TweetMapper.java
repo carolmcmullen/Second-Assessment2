@@ -6,7 +6,8 @@ import com.cooksys.secondassessment.dto.TweetDto;
 import com.cooksys.secondassessment.entity.Tweet;
 
 @Mapper(componentModel = "spring")
-public interface TweetMapper {	
+public interface TweetMapper {
 	TweetDto toTweetDto(Tweet tweet);
+
 	Tweet toTweet(TweetDto tweet);
 }
