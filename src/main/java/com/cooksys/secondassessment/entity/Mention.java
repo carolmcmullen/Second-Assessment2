@@ -1,7 +1,5 @@
 package com.cooksys.secondassessment.entity;
 
-import java.sql.Timestamp;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,15 +10,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "hashtag")
-public class Hashtag {
+@Table(name = "mention")
+public class Mention {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String label;
-	private Timestamp firstUsed;
-	private Timestamp lastUsed;
-
+	
+	private String username;
+	
 	@ManyToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "tweetId", referencedColumnName = "id", nullable = true)
 	private Tweet tweet;
@@ -33,28 +30,12 @@ public class Hashtag {
 		this.id = id;
 	}
 
-	public String getLabel() {
-		return label;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
-	public Timestamp getFirstUsed() {
-		return firstUsed;
-	}
-
-	public void setFirstUsed(Timestamp firstUsed) {
-		this.firstUsed = firstUsed;
-	}
-
-	public Timestamp getLastUsed() {
-		return lastUsed;
-	}
-
-	public void setLastUsed(Timestamp lastUsed) {
-		this.lastUsed = lastUsed;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public Tweet getTweet() {
@@ -81,7 +62,7 @@ public class Hashtag {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Hashtag other = (Hashtag) obj;
+		Mention other = (Mention) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -89,5 +70,6 @@ public class Hashtag {
 			return false;
 		return true;
 	}
-
+	
+	
 }

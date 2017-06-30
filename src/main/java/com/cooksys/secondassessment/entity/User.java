@@ -1,6 +1,7 @@
 package com.cooksys.secondassessment.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -30,6 +32,12 @@ public class User {
 	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name="profileId", referencedColumnName = "id", nullable=true)
 	private Profile profile;
+	
+	@ManyToMany()
+	private List<User> followers;
+	
+	@ManyToMany()
+	private List<User> following;
 	
 	public Integer getId() {
 		return id;
@@ -62,6 +70,40 @@ public class User {
 	public void setProfile(Profile profile) {
 		this.profile = profile;
 	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+	
+	
+
+	public List<User> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(List<User> followers) {
+		this.followers = followers;
+	}
+
+	public List<User> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(List<User> following) {
+		this.following = following;
+	}
 
 	@Override
 	public int hashCode() {
@@ -86,21 +128,5 @@ public class User {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
 	}
 }

@@ -9,6 +9,7 @@ import com.cooksys.secondassessment.service.HashtagService;
 import com.cooksys.secondassessment.service.UserService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Api(value = "validate")
@@ -22,19 +23,20 @@ public class ValidateController {
 		this.hashtagService = hashtagService;
 	}
 
-	// Check is username is exists
+	// Check if username exists
 	@RequestMapping(value = "/username/exists/@{username}", method = RequestMethod.GET)
+	@ApiOperation(value = "Returns boolean", notes = "Check if username exists")
 	public boolean checkIfUsernameExists(@PathVariable String username) {
 		return !userService.isUsernameAvailable(username);
 	}
 
-	// Check is username is available
+	// Check if username is available
 	@RequestMapping(value = "/username/available/@{username}", method = RequestMethod.GET)
 	public boolean checkIfUsernameAvailable(@PathVariable String username) {
 		return userService.isUsernameAvailable(username);
 	}
 
-	// Check is hashtag exist
+	// Check if hashtag exists
 	@RequestMapping(value = "/tag/exists/{label}", method = RequestMethod.GET)
 	public boolean checkIfHashtagExists(@PathVariable String label) {
 		return hashtagService.checkIfHashTagExist(label);

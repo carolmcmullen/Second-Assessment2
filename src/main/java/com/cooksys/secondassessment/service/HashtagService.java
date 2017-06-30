@@ -12,6 +12,8 @@ import com.cooksys.secondassessment.entity.Hashtag;
 import com.cooksys.secondassessment.mapper.HashtagMapper;
 import com.cooksys.secondassessment.repository.HashtagRepository;
 
+import javassist.NotFoundException;
+
 @Service
 public class HashtagService {
 	
@@ -26,17 +28,29 @@ public class HashtagService {
 
 	public HashtagDto createHashtag(Hashtag hashtag) {
 		Hashtag newHashtag= hashtagRepository.save(hashtag);
-		return hashtagMapper.toHastTagDto(newHashtag);
+		return hashtagMapper.toHashtagDto(newHashtag);
 	}
 
 	public List<HashtagDto> getAll() {
-		return hashtagRepository.findAll().stream().map(hashtagMapper::toHastTagDto).collect(Collectors.toList());
+		return hashtagRepository.findAll().stream().map(hashtagMapper::toHashtagDto).collect(Collectors.toList());
 	}
-	
+
+	public Hashtag getHashtag(String label) {
+		List<Hashtag> hashtag = hashtagRepository.findByLabel(label);
+		if(hashtag != null && hashtag.size() > 0) 
+		{
+			return hashtag.get(0); 
+		}
+		return null;
+}
+
 	public boolean checkIfHashTagExist(String label) {
-		Hashtag hashtag = hashtagRepository.findByLabel(label);
+		List<Hashtag> hashtag= hashtagRepository.findByLabel(label);
 		if(hashtag == null)
 			return false;
-		return true;
+		if(hashtag.size() > 0)
+			return true;
+		return false;
 	}
+		
 }

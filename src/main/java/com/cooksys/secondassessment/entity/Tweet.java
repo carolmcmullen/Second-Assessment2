@@ -1,6 +1,7 @@
 package com.cooksys.secondassessment.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -36,6 +38,14 @@ public class Tweet {
 	@OneToOne()
 	@JoinColumn(name="repostOfId", referencedColumnName = "id", nullable=true)
 	private Tweet repostOf;
+	
+	@ManyToMany()
+	private List<User> userLikes;
+	
+	@ManyToMany()
+	private List<Hashtag> hashtags;
+
+	private Boolean isActive;
 	
 	public Integer getId() {
 		return id;
@@ -76,6 +86,23 @@ public class Tweet {
 		this.repostOf = repostOf;
 	}
 	
+	public List<User> getUserLikes() {
+		return userLikes;
+	}
+	public void setUserLikes(List<User> userLikes) {
+		this.userLikes = userLikes;
+	}
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+	
+	public List<Hashtag> getHashtags() {
+		return hashtags;
+	}
+	public void setHashtags(List<Hashtag> hashtags) {
+		this.hashtags = hashtags;
+	}
+	
 	
 	@Override
 	public int hashCode() {
@@ -100,4 +127,18 @@ public class Tweet {
 			return false;
 		return true;
 	}
+	
+	/*
+	 * part of delete Tweet
+	 */
+	public Boolean getIsActive() {
+		return isActive;
+	}
+	
+	public void setIsActive(boolean isActive) {
+		this.isActive = isActive;
+		
+	}
+	
+	
 }

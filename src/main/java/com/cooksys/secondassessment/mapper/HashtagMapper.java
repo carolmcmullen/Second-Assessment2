@@ -7,6 +7,6 @@ import com.cooksys.secondassessment.entity.Hashtag;
 
 @Mapper(componentModel = "spring")
 public interface HashtagMapper {	
-	HashtagDto toHastTagDto(Hashtag hashtag);
+	HashtagDto toHashtagDto(Hashtag hashtag);
 	Hashtag toHashtag(HashtagDto hashtag);
 }

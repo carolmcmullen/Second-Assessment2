@@ -1,6 +1,7 @@
 package cooksys.secondassessment.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,11 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cooksys.secondassessment.dto.CredentialDto;
 import com.cooksys.secondassessment.dto.ProfileCredentialDto;
+import com.cooksys.secondassessment.dto.TweetDto;
 import com.cooksys.secondassessment.dto.UserWithIdDto;
 import com.cooksys.secondassessment.dto.UserWithoutIdDto;
 import com.cooksys.secondassessment.entity.User;
 import com.cooksys.secondassessment.mapper.ProfileMapper;
+import com.cooksys.secondassessment.mapper.TweetMapper;
 import com.cooksys.secondassessment.mapper.UserMapper;
+import com.cooksys.secondassessment.service.TweetService;
 import com.cooksys.secondassessment.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -34,22 +38,33 @@ public class UserController {
 	private UserService userService;
 	private UserMapper userMapper;
 	private ProfileMapper profileMapper;
+	private TweetService tweetService;
+	private TweetMapper tweetMapper;
 
-	public UserController(UserService userService, UserMapper userMapper, ProfileMapper profileMapper) {
+	public UserController(UserService userService, UserMapper userMapper, ProfileMapper profileMapper, TweetService tweetService, TweetMapper tweetMapper) {
 		this.userService = userService;
 		this.userMapper = userMapper;
 		this.profileMapper = profileMapper;
+		this.tweetService = tweetService;
+		this.tweetMapper = tweetMapper;
 	}
 
 	// Creates User
 
 	@ApiOperation(value = "/CreateUser", nickname = "createNewUser")
 	@PostMapping()
-	public UserWithIdDto create(@RequestBody CredentialDto user, HttpServletResponse response) {
-		// todo: If any required fields are missing or the username provided is already taken, an error should be sent in lieu of a response.
-			//If the given credentials match a previously-deleted user, re-activate the deleted user instead of creating a new one.
+	public UserWithIdDto create(@RequestBody CredentialDto user, HttpServletResponse response) throws Exception {
+		// If any required fields are missing or the username provided is
+		// already taken, an error should be sent in lieu of a response.
+		// If the given credentials match a previously-deleted user, re-activate
+		// the deleted user instead of creating a new one.
 		response.setStatus(HttpServletResponse.SC_CREATED);
-		return userService.createUser(userMapper.toUser(user));
+		try {
+			return userService.createUser(userMapper.toUser(user));
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			throw e;
+		}
 	}
 
 	// Get all Users
@@ -59,22 +74,22 @@ public class UserController {
 	public List<UserWithIdDto> getAll() {
 		return userService.getAll();
 	}
-	
+
 	// Get user
-		@GetMapping("@{username}")
-		public UserWithoutIdDto getUser(@PathVariable String username, HttpServletResponse response) throws NotFoundException {
-			try {
-				return userService.getUser(username);
-			} catch (NotFoundException e) {
-				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				throw e;
-			}
+	@GetMapping("@{username}")
+	public UserWithoutIdDto getUser(@PathVariable String username, HttpServletResponse response)
+			throws NotFoundException {
+		try {
+			return userService.getUser(username);
+		} catch (NotFoundException e) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			throw e;
 		}
+	}
 
 	// Delete user
 	@DeleteMapping("@{username}")
-	public UserWithoutIdDto delete(@RequestBody CredentialDto user, HttpServletResponse response)
-			throws NotFoundException {
+	public UserWithoutIdDto delete(@RequestBody CredentialDto user, HttpServletResponse response) throws Exception {
 		try {
 			return userService.deleteUser(userMapper.toUser(user));
 		} catch (NotFoundException e) {
@@ -84,8 +99,8 @@ public class UserController {
 	}
 
 	@PatchMapping("@{username}")
-	public UserWithoutIdDto UpdateUser(@RequestBody ProfileCredentialDto profileCredential, HttpServletResponse response)
-			throws NotFoundException {
+	public UserWithoutIdDto updateUser(@RequestBody ProfileCredentialDto profileCredential,
+			HttpServletResponse response) throws Exception {
 		try {
 			return userService.updateProfile(userMapper.toUser(profileCredential.getCredential()),
 					profileMapper.toProfile(profileCredential.getProfile()));
@@ -94,32 +109,94 @@ public class UserController {
 			throw e;
 		}
 	}
+
+	@PostMapping("@{username}/follow")
+	public void followUser(@PathVariable String username, @RequestBody CredentialDto credential,
+			HttpServletResponse response) throws Exception {
+		try {
+			userService.followUser(username, userMapper.toUser(credential));
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			throw e;
+		}
+	}
+
+	@PostMapping("@{username}/unfollow")
+	public void unFollowUser(@PathVariable String username, @RequestBody CredentialDto credential,
+			HttpServletResponse response) throws Exception {
+		try {
+			userService.unFollowUser(username, userMapper.toUser(credential));
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			throw e;
+		}
+	}
+
+	@GetMapping("@{username}/followers")
+	public List<UserWithIdDto> getFollowers(@PathVariable String username, HttpServletResponse response)
+			throws Exception {
+		List<UserWithIdDto> followers;
+		try {
+			followers = userService.getFollowers(username);
+			if (followers.size() == 0)
+				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return followers;
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			throw e;
+		}
+
+	}
+
+	@GetMapping("@{username}/following")
+	public List<UserWithIdDto> getFollowing(@PathVariable String username, HttpServletResponse response)
+			throws Exception {
+		List<UserWithIdDto> following;
+		try {
+			following = userService.getFollowing(username);
+			if (following.size() == 0)
+				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return following;
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			throw e;
+		}
+
+	}
+		
+	  
+	 @GetMapping("@{username}/tweets")
+		public List<TweetDto> getUserTweets(@PathVariable String username, HttpServletResponse response) throws Exception {
+		 return tweetService.getTweetsByUsername(username)
+				 .stream()
+				 .filter(t -> t.getIsActive().equals(true))
+				 .sorted((t1, t2) -> t2.getPosted().compareTo(t1.getPosted()))
+				 .map(tweetMapper::toTweetDto)
+				 .collect(Collectors.toList());	 
+		}
+	 
+
+	@GetMapping("@{username}/mentions")
+	public List<TweetDto> getMentions(@PathVariable String username, HttpServletResponse response) throws Exception {
+	 return tweetService.getTweetsByMentions(username)
+			 .stream()
+			 .filter(t -> t.getIsActive().equals(true))
+			 .sorted((t1, t2) -> t2.getPosted().compareTo(t1.getPosted()))
+			 .map(tweetMapper::toTweetDto)
+			 .collect(Collectors.toList());	 
+	}
 	
 	/*
-	 * TODO: POST users/@{username}/follow
+	@GetMapping("@{username}/feed")
+	public List<TweetDto> getFeed(@PathVariable String username, HttpServletResponse response) throws Exception {
+	 return tweetService.getFeed(username)
+			 .stream()
+			 .filter(t -> t.getIsActive().equals(true))
+			 .sorted((t1, t2) -> t2.getPosted().compareTo(t1.getPosted()))
+			 .map(tweetMapper::toTweetDto)
+			 .collect(Collectors.toList());	 
+	}
 	 */
-	
-	/*
-	 * TODO: POST users/@{username}/follow
-	 */
-	
-	/*
-	 * TODO: GET users/@{username}/feed
-	 */
-	
-	/*
-	 * TODO: GET users/@{username}/tweets
-	 */
-	
-	/*
-	 * TODO: POST users/@{username}/mentions
-	 */
-	
-	/*
-	 * TODO: GET users/@{username}/followers
-	 */
-	
-	/*
-	 * TODO: GET users/@{username}/following
-	 */
+	 
+
 }
